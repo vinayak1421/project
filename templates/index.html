@@ -33,7 +33,7 @@
                 <div class="group-title">Exact Groups (Sum = 280):</div>
                 <ul>
                     {% for group in exact_groups %}
-                        <li>{{ group }}</li>
+                        <li>{{ group | join(', ') }}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -41,7 +41,7 @@
                 <div class="group-title">Close Groups (Sum between 270 and 280):</div>
                 <ul>
                     {% for group in close_groups %}
-                        <li>{{ group }}</li>
+                        <li>{{ group | join(', ') }}</li>
                     {% endfor %}
                 </ul>
             </div>
