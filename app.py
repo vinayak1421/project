@@ -11,7 +11,7 @@ def find_groups(data, target):
     for r in range(1, n + 1):
         for combo in combinations(enumerate(data), r):
             indices, values = zip(*combo)
-            if sum(int(item['size']) for item in values) == target and not used_indices.intersection(indices):
+            if sum(item['size'] for item in values) == target and not used_indices.intersection(indices):
                 result.append([item['id'] for item in values])
                 used_indices.update(indices)
     remaining = [data[i] for i in range(n) if i not in used_indices]
@@ -24,7 +24,7 @@ def group_numbers(data, target, close_min, close_max):
     if remaining:
         for r in range(1, len(remaining) + 1):
             for combo in combinations(remaining, r):
-                if close_min <= sum(int(item['size']) for item in combo) <= close_max:
+                if close_min <= sum(item['size'] for item in combo) <= close_max:
                     close_groups.append([item['id'] for item in combo])
                     for item in combo:
                         remaining.remove(item)
@@ -39,7 +39,9 @@ def index():
         file = request.files['file']
         if file:
             df = pd.read_csv(file)
-            data = [{'id': row['id'], 'size': int(row['size'])} for index, row in df.iterrows()]  # Convert size to int
+            # Explicitly convert size column to native Python int
+            df['size'] = df['size'].apply(int)
+            data = [{'id': row['id'], 'size': row['size']} for index, row in df.iterrows()]
             exact_groups, close_groups, remaining_group = group_numbers(data, 280, 270, 280)
             return render_template('index.html', exact_groups=exact_groups, close_groups=close_groups, remaining_group=remaining_group)
     return render_template('index.html', exact_groups=None, close_groups=None, remaining_group=None)
