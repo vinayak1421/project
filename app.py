@@ -12,7 +12,7 @@ def find_groups(data, target):
         for combo in combinations(enumerate(data), r):
             indices, values = zip(*combo)
             if sum(item['size'] for item in values) == target and not used_indices.intersection(indices):
-                result.append([item['id'] for item in values])
+                result.append([{'id': item['id'], 'size': item['size']} for item in values])
                 used_indices.update(indices)
     remaining = [data[i] for i in range(n) if i not in used_indices]
     return result, remaining
@@ -24,12 +24,13 @@ def group_numbers(data, target, close_min, close_max):
     if remaining:
         for r in range(1, len(remaining) + 1):
             for combo in combinations(remaining, r):
-                if close_min <= sum(item['size'] for item in combo) <= close_max:
-                    close_groups.append([item['id'] for item in combo])
+                combo_sum = sum(item['size'] for item in combo)
+                if close_min <= combo_sum <= close_max:
+                    close_groups.append([{'id': item['id'], 'size': item['size']} for item in combo])
                     for item in combo:
                         remaining.remove(item)
     
-    remaining_group = [item['id'] for item in remaining] if remaining else None
+    remaining_group = [{'id': item['id'], 'size': item['size']} for item in remaining] if remaining else None
     
     return exact_groups, close_groups, remaining_group
 
