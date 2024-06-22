@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSV Grouping</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        .group {
+            margin-top: 20px;
+        }
+        .group-title {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload CSV File</h1>
+        <form action="/" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".csv" required>
+            <button type="submit">Upload</button>
+        </form>
+
+        {% if exact_groups is not none %}
+            <div class="group">
+                <div class="group-title">Exact Groups (Sum = 280):</div>
+                <ul>
+                    {% for group in exact_groups %}
+                        <li>{{ group }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="group">
+                <div class="group-title">Close Groups (Sum between 270 and 280):</div>
+                <ul>
+                    {% for group in close_groups %}
+                        <li>{{ group }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="group">
+                <div class="group-title">Remaining Group:</div>
+                <ul>
+                    {% for id in remaining_group %}
+                        <li>{{ id }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
