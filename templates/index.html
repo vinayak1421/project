@@ -46,8 +46,7 @@
                     {% for group in close_groups %}
                         <li>
                             IDs: {{ group | map(attribute='id') | join(', ') }}<br>
-                            Sizes: {{ group | map(attribute='size') | join(', ') }}<br>
-                            Remaining size to reach 280: {{ 280 - (group | map(attribute='size') | sum) }}
+                            Sizes: {{ group | map(attribute='size') | join(', ') }}
                         </li>
                     {% endfor %}
                 </ul>
