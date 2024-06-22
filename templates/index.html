@@ -33,7 +33,10 @@
                 <div class="group-title">Exact Groups (Sum = 280):</div>
                 <ul>
                     {% for group in exact_groups %}
-                        <li>{{ group | join(', ') }}</li>
+                        <li>
+                            IDs: {{ group | map(attribute='id') | join(', ') }}<br>
+                            Sizes: {{ group | map(attribute='size') | join(', ') }}
+                        </li>
                     {% endfor %}
                 </ul>
             </div>
@@ -41,16 +44,23 @@
                 <div class="group-title">Close Groups (Sum between 270 and 280):</div>
                 <ul>
                     {% for group in close_groups %}
-                        <li>{{ group | join(', ') }}</li>
+                        <li>
+                            IDs: {{ group | map(attribute='id') | join(', ') }}<br>
+                            Sizes: {{ group | map(attribute='size') | join(', ') }}<br>
+                            Remaining size to reach 280: {{ 280 - (group | map(attribute='size') | sum) }}
+                        </li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="group">
                 <div class="group-title">Remaining Group:</div>
                 <ul>
-                    {% for id in remaining_group %}
-                        <li>{{ id }}</li>
-                    {% endfor %}
+                    {% if remaining_group %}
+                        IDs: {{ remaining_group | map(attribute='id') | join(', ') }}<br>
+                        Sizes: {{ remaining_group | map(attribute='size') | join(', ') }}
+                    {% else %}
+                        <li>No remaining items.</li>
+                    {% endif %}
                 </ul>
             </div>
         {% endif %}
